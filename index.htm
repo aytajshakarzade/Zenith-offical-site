@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Team | Zirvəyə doğru</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --accent: #06b6d4;
+            --bg-dark: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --bg-body: #0a0a0f;
+        }
+
+        .team-image {
+            width: 100%;
+            height: 260px;
+            /* 280px-dən 260px etdim daha balaca olsun */
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Şəkil qutuya sığsın, kəssin */
+            object-position: center top;
+            /* Üz/əsas hissə mərkəzdə olsun */
+            transition: transform 0.4s ease;
+        }
+
+        /* Hover effekti - şəkil balaca böyüsün */
+        .team-card:hover .team-image img {
+            transform: scale(1.08);
+        }
+
+        /* Light Mode Variables */
+        [data-theme="light"] {
+            --bg-dark: #ffffff;
+            --bg-body: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border: rgba(0, 0, 0, 0.1);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Custom Cursor - Düzəldilmiş */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #06b6d4;
+            /* Birbaşa mavi/cyan rəng */
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s;
+            /* Başlanğıcda ekran xaricində olsun */
+            top: -100px;
+            left: -100px;
+            /* Və ya görünməz olsun deyə: opacity: 0; */
+        }
+
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: #06b6d4;
+            /* Birbaşa mavi/cyan rəng */
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            /* Başlanğıcda ekran xaricində olsun */
+            top: -100px;
+            left: -100px;
+            /* Və ya görünməz olsun deyə: opacity: 0; */
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-2);
+            transition: width 0.3s;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.3rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        [data-theme="light"] .lang-switcher {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+            border-color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 5%;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            z-index: -2;
+        }
+
+        [data-theme="light"] .hero-bg {
+            background:
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 50px;
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--text-primary), #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gradient-2);
+            color: white;
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+        }
+
+        [data-theme="light"] .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Section - HIDDEN FOR NOW */
+        .stats {
+            display: none;
+            /* BU XƏTTİ SİLƏRSƏNİZ GÖRÜNƏCƏK */
+            padding: 4rem 5%;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-2);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Timeline / Competitions - SoilMate Roadmap */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 3rem;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid var(--accent);
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
+        }
+
+        .timeline-date {
+            display: inline-block;
+            background: var(--gradient-2);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-content h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .timeline-content .place {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .feature-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(99, 102, 241, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .highlight-box h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Team Section - 3 top, 2 bottom centered */
+        .team-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .team-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .team-row-1 {
+            /* 3 members */
+        }
+
+        .team-row-2 {
+            /* 2 members centered */
+        }
+
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .team-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .team-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        [data-theme="light"] .team-image {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+        }
+
+        .team-info {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-role {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .team-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+        }
+
+        .team-card:hover .team-social {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .team-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        [data-theme="light"] .team-social a {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+        }
+
+        .team-social a:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Skills/Trust Section */
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .trust-badge {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .trust-badge:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .trust-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-links {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        [data-theme="light"] .form-group input,
+        [data-theme="light"] .form-group textarea {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            margin-top: 4rem;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                justify-content: flex-start;
+            }
+
+            .timeline-content {
+                margin-left: 40px;
+                width: calc(100% - 40px);
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cursor,
+            .cursor-dot {
+                display: none;
+            }
+
+            .team-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .team-card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-text">ZENITH</div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">ZENITH</div>
+        <ul class="nav-links">
+            <li><a href="#about" data-key="about">Haqqımızda</a></li>
+            <li><a href="#competitions" data-key="competitions">Layihələrimiz</a></li>
+            <li><a href="#team" data-key="team">Komanda</a></li>
+            <li><a href="#contact" data-key="contact">Əlaqə</a></li>
+            <li>
+                <div class="lang-switcher">
+                    <button class="lang-btn active" onclick="changeLang('az')">AZ</button>
+                    <button class="lang-btn" onclick="changeLang('en')">EN</button>
+                    <button class="lang-btn" onclick="changeLang('ru')">RU</button>
+                </div>
+            </li>
+            <li>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Mövzu dəyiş">
+                    🌓
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="particles" id="particles"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>★</span>
+                <span data-key="badge">Gələcəyin İnnovatorları</span>
+            </div>
+            <h1 data-key="hero_title">Zirvəyə Doğru</h1>
+            <p data-key="hero_desc">Gənclərdən ibarət güclü komanda olaraq texnologiya və innovasiya yarışlarında
+                ölkəmizi təmsil edirik. Hədəfimiz zirvədir!</p>
+            <div class="cta-buttons">
+                <a href="#competitions" class="btn btn-primary" data-key="btn_competitions">Layihələrimiz</a>
+                <a href="#contact" class="btn btn-secondary" data-key="btn_contact">Bizimlə Əlaqə</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats - GİZLİ (Hidden) -->
+    <div class="stats" id="statsSection">
+        <div class="stat-card">
+            <div class="stat-number" data-count="15">0</div>
+            <div class="stat-label" data-key="stat_competitions">İştirak Edilən Yarış</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-count="8">0</div>
+            <div class="stat-label" data-key="stat_wins">Qazanılmış Mükafat</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-count="12">0</div>
+            <div class="stat-label" data-key="stat_members">Komanda Üzvü</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-count="3">0</div>
+            <div class="stat-label" data-key="stat_countries">Ölkə</div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <h2 data-key="about_title">Biz Kimik?</h2>
+            <p data-key="about_desc">Zenith komandası 2021-ci ildə yaradılmış və texnologiya sahəsində özünü sübut etmiş
+                gənclərdən ibarət bir təşkilatdır.</p>
+        </div>
+
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span data-key="trust_1">Sertifikatlı Mütəxəssislər</span>
+            </div>
+            <div class="trust-badge">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                <span data-key="trust_2">Innovativ Layihələr</span>
+            </div>
+            <div class="trust-badge">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                    </path>
+                </svg>
+                <span data-key="trust_3">Beynəlxalq Əməkdaşlıq</span>
+            </div>
+            <div class="trust-badge">
+                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
+                    </path>
+                </svg>
+                <span data-key="trust_4">Tədqiqat və İnkişaf</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitions Timeline - SoilMate Roadmap -->
+    <section id="competitions">
+        <div class="section-header">
+            <h2 data-key="comp_title">Layihələrimiz</h2>
+            <p data-key="comp_desc">Hazırladığımız innovativ texnologiya layihələri</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-date">2026</span>
+                    <h3 data-key="soilmate_title">SoilMate: Tarlanın Ağıllı Köpəkbalığı 🤖🌱</h3>
+                    <div class="place" data-key="soilmate_award">🥈 RoboCode III - 2-ci yer</div>
+                    <p data-key="soilmate_desc">
+                        SoilMate sadəcə bir robot deyil, fermerin tarladakı "sağ əli" və rəqəmsal aqronomudur.
+                        Bizim məqsədimiz kənd təsərrüfatını köhnə üsullardan çıxarıb, tamamilə avtonom və
+                        məlumat əsaslı bir sistemə keçirməkdir.
+                    </p>
+
+                    <ul class="feature-list">
+                        <li data-key="soilmate_feat1"><strong>NVIDIA AI Beyni:</strong> Robotun içində NVIDIA Jetson
+                            Orin Nano kompüteri var. Bu beyin sayəsində robot tarlada hara gedəcəyini bilir, maneələri
+                            tanıyır və GPS zəifləyəndə belə yolunu azmır.</li>
+                        <li data-key="soilmate_feat2"><strong>Torpaq Sensorları:</strong> Xüsusi sensorlar torpağın
+                            dərinliyinə "baxır", turşuluq (pH), duzluluq (EC) və rütubət ölçür. Məlumatlar saniyələr
+                            içində Vercel Dashboard-a ötürülür.</li>
+                        <li data-key="soilmate_feat3"><strong>Auto-Docking:</strong> Enerji azaldıqda robot özü-özünə
+                            günəş paneli ilə təchiz olunmuş şarj stansiyasına qayıdır və şarj olub yenidən işinə davam
+                            edir.</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <h4 data-key="soilmate_why_title">🎯 Niyə SoilMate?</h4>
+                        <p style="margin: 0; font-size: 0.95rem;" data-key="soilmate_why_desc">
+                            <strong>30% Qənaət:</strong> Fermer yalnız ehtiyac olan yerə qulluq edir.
+                            <strong>Sürət:</strong> Laboratoriya analizləri günlərlə çəkir, robot anında nəticə verir.
+                            <strong>Əlçatanlıq:</strong> Kompakt (70x80 sm) və orta ölçülü fermalar üçün iqtisadi
+                            cəhətdən uyğundur.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section - 3 top, 2 bottom -->
+    <section id="team">
+        <div class="section-header">
+            <h2 data-key="team_title">Komandamız</h2>
+            <p data-key="team_desc">Hər biri öz sahəsinin peşəkarı olan gənclərdən ibarət komandamızla tanış olun</p>
+        </div>
+
+        <div class="team-container">
+            <!-- First Row: 3 members -->
+            <div class="team-row team-row-1">
+                <!-- 1. İsmayıl Baba -->
+                <div class="team-card" onclick="window.open('https://www.linkedin.com/in/ismayil-baba', '_blank')"
+                    style="cursor: pointer;">
+                    <div class="team-image"><img src="Ismayil.jpeg" alt="İsmayıl Baba"></div>
+                    <div class="team-info">
+                        <h3 data-key="member1_name">İsmayıl Baba</h3>
+                        <div class="team-role" data-key="member1_role">Mechatronics</div>
+                        <div class="team-social" onclick="event.stopPropagation()">
+                            <a href="https://www.linkedin.com/in/ismayil-baba-a33294390/" target="_blank">in</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Aytac Şəkərzadə -->
+                <div class="team-card" onclick="window.open('https://www.linkedin.com/in/aytac-sekerzade', '_blank')"
+                    style="cursor: pointer;">
+                    <div class="team-image"><img src="me.jpeg" alt="Aytac Şəkərzadə"></div>
+                    <div class="team-info">
+                        <h3 data-key="member2_name">Aytac Şəkərzadə</h3>
+                        <div class="team-role" data-key="member2_role">Full-Stack Developer</div>
+                        <div class="team-social" onclick="event.stopPropagation()">
+                            <a href="https://www.linkedin.com/in/aytaj-shakarzade-a29b98353/" target="_blank">in</a>
+                            <a href="https://github.com/aytajshakarzade" onclick="event.stopPropagation()">gh</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Nəcibə Məmmədova -->
+                <div class="team-card" onclick="window.open('https://www.linkedin.com/in/necibe-memmedova', '_blank')"
+                    style="cursor: pointer;">
+                    <div class="team-image"><img src="Naciba.jpeg" alt="Nəcibə Məmmədova"></div>
+                    <div class="team-info">
+                        <h3 data-key="member3_name">Nəcibə Məmmədova</h3>
+                        <div class="team-role" data-key="member3_role">Java Backend Developer</div>
+                        <div class="team-social" onclick="event.stopPropagation()">
+                            <a href="https://www.linkedin.com/in/necibemammadova/" target="_blank">in</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Row: 2 members centered -->
+            <div class="team-row team-row-2">
+                <!-- 4. İlahə Niftəliyeva -->
+                <div class="team-card" onclick="window.open('https://www.linkedin.com/in/ilahe-nifteliyeva', '_blank')"
+                    style="cursor: pointer;">
+                    <div class="team-image"><img src="Ilaha.PNG" alt=""></div>
+                    <div class="team-info">
+                        <h3 data-key="member4_name">İlahə Niftəliyeva</h3>
+                        <div class="team-role" data-key="member4_role">Electronics</div>
+                        <div class="team-social" onclick="event.stopPropagation()">
+                            <a href="https://www.linkedin.com/in/ilahaniftaliyeva/" target="_blank">in</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Əli Əsədov -->
+                <div class="team-card" onclick="window.open('https://www.linkedin.com/in/ali-esedov', '_blank')"
+                    style="cursor: pointer;">
+                    <div class="team-image"><img src="Ali.jpeg" alt="Əli Əsədov"></div>
+                    <div class="team-info">
+                        <h3 data-key="member5_name">Əli Əsədov</h3>
+                        <div class="team-role" data-key="member5_role">Kiber mütəxəssis</div>
+                        <div class="team-social" onclick="event.stopPropagation()">
+                            <a href="https://www.linkedin.com/in/ali-asadov249/" target="_blank">in</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <h2 data-key="contact_title">Bizimlə Əlaqə</h2>
+            <p data-key="contact_desc">Layihənizdə əməkdaşlıq etmək və ya sadəcə salam demək istəyirsiniz?</p>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3 data-key="contact_subtitle">Gəlin birlikdə böyük işlər görək!</h3>
+                <p data-key="contact_text">Yeni layihələr, yarışlar və ya əməkdaşlıq təklifləri üçün bizimlə əlaqə
+                    saxlayın.</p>
+
+                <div class="contact-links">
+                    <a href="zenithteam.tech@gmail.com" class="contact-link">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <span>zenithteam.tech@gmail.com</span>
+                    </a>
+                    <a href="#" class="contact-link">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span>Bakı, Azərbaycan</span>
+                    </a>
+                    <a href="https://linkedin.com/company/zenith-team1" target="_blank" class="contact-link">
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        </svg>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Mesaj göndərildi!');">
+                <div class="form-group">
+                    <label data-key="form_name">Adınız</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label data-key="form_email">Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label data-key="form_message">Mesajınız</label>
+                    <textarea rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" data-key="form_send">Göndər</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">ZENITH</div>
+        <p>© 2025 Zenith Team. <span data-key="footer_rights">Bütün hüquqlar qorunur.</span></p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Check for saved theme preference
+        window.addEventListener('load', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else if (!systemPrefersDark) {
+                // Default to dark as per original design, but respect system pref
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+        // Custom Cursor - Düzəldilmiş
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        // İlk mouse hərəkətində cursor-u görünən et
+        let isFirstMove = true;
+
+        document.addEventListener('mousemove', (e) => {
+            if (isFirstMove) {
+                cursor.style.opacity = '1';
+                cursorDot.style.opacity = '1';
+                isFirstMove = false;
+            }
+
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+            cursorDot.style.left = e.clientX - 2 + 'px';
+            cursorDot.style.top = e.clientY - 2 + 'px';
+        });
+
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'scale(0.8)';
+        });
+
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'scale(1)';
+        });
+        // Dil məlumatları
+        const translations = {
+            az: {
+                about: "Haqqımızda",
+                competitions: "Layihələrimiz",
+                team: "Komanda",
+                contact: "Əlaqə",
+                badge: "Gələcəyin İnnovatorları",
+                hero_title: "Zirvəyə Doğru",
+                hero_desc: "Gənclərdən ibarət güclü komanda olaraq texnologiya və innovasiya yarışlarında ölkəmizi təmsil edirik. Hədəfimiz zirvədir!",
+                btn_competitions: "Layihələrimiz",
+                btn_contact: "Bizimlə Əlaqə",
+                stat_competitions: "İştirak Edilən Yarış",
+                stat_wins: "Qazanılmış Mükafat",
+                stat_members: "Komanda Üzvü",
+                stat_countries: "Ölkə",
+                about_title: "Biz Kimik?",
+                about_desc: "Zenith komandası 2021-ci ildə yaradılmış və texnologiya sahəsində özünü sübut etmiş gənclərdən ibarət bir təşkilatdır.",
+                trust_1: "Sertifikatlı Mütəxəssislər",
+                trust_2: "Innovativ Layihələr",
+                trust_3: "Beynəlxalq Əməkdaşlıq",
+                trust_4: "Tədqiqat və İnkişaf",
+                comp_title: "Layihələrimiz",
+                comp_desc: "Hazırladığımız innovativ texnologiya layihələri",
+                // SoilMate tərcümələri
+                soilmate_title: "SoilMate: Tarlanın Ağıllı Köpəkbalığı 🤖🌱",
+                soilmate_award: "🥈 RoboCode III - 2-ci yer",
+                soilmate_desc: "SoilMate sadəcə bir robot deyil, fermerin tarladakı \"sağ əli\" və rəqəmsal aqronomudur. Bizim məqsədimiz kənd təsərrüfatını köhnə üsullardan çıxarıb, tamamilə avtonom və məlumat əsaslı bir sistemə keçirməkdir.",
+                soilmate_feat1: "NVIDIA AI Beyni: Robotun içində NVIDIA Jetson Orin Nano kompüteri var. Bu beyin sayəsində robot tarlada hara gedəcəyini bilir, maneələri tanıyır və GPS zəifləyəndə belə yolunu azmır.",
+                soilmate_feat2: "Torpaq Sensorları: Xüsusi sensorlar torpağın dərinliyinə \"baxır\", turşuluq (pH), duzluluq (EC) və rütubət ölçür. Məlumatlar saniyələr içində Vercel Dashboard-a ötürülür.",
+                soilmate_feat3: "Auto-Docking: Enerji azaldıqda robot özü-özünə günəş paneli ilə təchiz olunmuş şarj stansiyasına qayıdır və şarj olub yenidən işinə davam edir.",
+                soilmate_why_title: "🎯 Niyə SoilMate?",
+                soilmate_why_desc: "30% Qənaət: Fermer yalnız ehtiyac olan yerə qulluq edir. Sürət: Laboratoriya analizləri günlərlə çəkir, robot anında nəticə verir. Əlçatanlıq: Kompakt (70x80 sm) və orta ölçülü fermalar üçün iqtisadi cəhətdən uyğundur.",
+                // Komanda tərcümələri
+                team_title: "Komandamız",
+                team_desc: "Hər biri öz sahəsinin peşəkarı olan gənclərdən ibarət komandamızla tanış olun",
+                member1_name: "İsmayıl Baba",
+                member1_role: "Mechatronics",
+                member2_name: "Aytac Şəkərzadə",
+                member2_role: "Full-Stack Developer",
+                member3_name: "Nəcibə Məmmədova",
+                member3_role: "Java Backend Developer",
+                member4_name: "İlahə Niftəliyeva",
+                member4_role: "Electronics",
+                member5_name: "Əli Əsədov",
+                member5_role: "Kiber mütəxəssis",
+                contact_title: "Bizimlə Əlaqə",
+                contact_desc: "Layihənizdə əməkdaşlıq etmək və ya sadəcə salam demək istəyirsiniz?",
+                contact_subtitle: "Gəlin birlikdə böyük işlər görək!",
+                contact_text: "Yeni layihələr, yarışlar və ya əməkdaşlıq təklifləri üçün bizimlə əlaqə saxlayın.",
+                form_name: "Adınız",
+                form_email: "Email",
+                form_message: "Mesajınız",
+                form_send: "Göndər",
+                footer_rights: "Bütün hüquqlar qorunur."
+            },
+            en: {
+                about: "About",
+                competitions: "Projects",
+                team: "Team",
+                contact: "Contact",
+                badge: "Future Innovators",
+                hero_title: "Towards the Zenith",
+                hero_desc: "We are a powerful team of youth representing our country in technology and innovation competitions. Our goal is the zenith!",
+                btn_competitions: "Our Projects",
+                btn_contact: "Contact Us",
+                stat_competitions: "Competitions",
+                stat_wins: "Awards Won",
+                stat_members: "Team Members",
+                stat_countries: "Countries",
+                about_title: "Who Are We?",
+                about_desc: "Team Zenith was established in 2021 and consists of youth who have proven themselves in the field of technology.",
+                trust_1: "Certified Experts",
+                trust_2: "Innovative Projects",
+                trust_3: "International Collaboration",
+                trust_4: "Research & Development",
+                comp_title: "Our Projects",
+                comp_desc: "Innovative technology projects we have developed",
+                // SoilMate English
+                soilmate_title: "SoilMate: Smart Guardian of the Field 🤖🌱",
+                soilmate_award: "🥈 RoboCode III - 2nd Place",
+                soilmate_desc: "SoilMate is not just a robot, but the farmer's \"right hand\" and digital agronomist in the field. Our goal is to take agriculture out of old methods and transition to a completely autonomous and data-driven system.",
+                soilmate_feat1: "NVIDIA AI Brain: Inside the robot is an NVIDIA Jetson Orin Nano computer. Thanks to this brain, the robot knows where to go in the field, recognizes obstacles, and never gets lost even when GPS is weak.",
+                soilmate_feat2: "Soil Sensors: Special sensors \"look\" deep into the soil, measuring acidity (pH), salinity (EC), and moisture. Data is transferred to the Vercel Dashboard within seconds.",
+                soilmate_feat3: "Auto-Docking: When energy is low, the robot autonomously returns to the charging station equipped with solar panels, charges, and continues its work.",
+                soilmate_why_title: "🎯 Why SoilMate?",
+                soilmate_why_desc: "30% Savings: The farmer only cares for areas that need it. Speed: Laboratory analyses take days, the robot gives instant results. Accessibility: Compact (70x80 cm) and economically suitable for medium-sized farms.",
+                // Team English
+                team_title: "Our Team",
+                team_desc: "Meet our team of professionals, each an expert in their field",
+                member1_name: "Ismayil Baba",
+                member1_role: "Mechatronics",
+                member2_name: "Aytaj Shakarzade",
+                member2_role: "Full-Stack Developer",
+                member3_name: "Necibe Mammadova",
+                member3_role: "Java Backend Developer",
+                member4_name: "Ilahe Niftaliyeva",
+                member4_role: "Electronics",
+                member5_name: "Ali Asadov",
+                member5_role: "Cybersecurity Specialist",
+                contact_title: "Contact Us",
+                contact_desc: "Want to collaborate on your project or just say hello?",
+                contact_subtitle: "Let's do great things together!",
+                contact_text: "Contact us for new projects, competitions or collaboration proposals.",
+                form_name: "Your Name",
+                form_email: "Email",
+                form_message: "Your Message",
+                form_send: "Send",
+                footer_rights: "All rights reserved."
+            },
+            ru: {
+                about: "О нас",
+                competitions: "Проекты",
+                team: "Команда",
+                contact: "Контакты",
+                badge: "Инноваторы Будущего",
+                hero_title: "К Вершине",
+                hero_desc: "Мы сильная команда молодежи, представляющая нашу страну на технологических и инновационных соревнованиях. Наша цель — вершина!",
+                btn_competitions: "Наши Проекты",
+                btn_contact: "Связаться",
+                stat_competitions: "Соревнований",
+                stat_wins: "Выиграно Наград",
+                stat_members: "Членов Команды",
+                stat_countries: "Стран",
+                about_title: "Кто мы?",
+                about_desc: "Команда Zenith была основана в 2021 году и состоит из молодежи, доказавшей себя в сфере технологий.",
+                trust_1: "Сертифицированные Эксперты",
+                trust_2: "Инновационные Проекты",
+                trust_3: "Международное Сотрудничество",
+                trust_4: "Исследования и Разработка",
+                comp_title: "Наши Проекты",
+                comp_desc: "Инновационные технологические проекты, которые мы разработали",
+                // SoilMate Russian
+                soilmate_title: "SoilMate: Умный Страж Поля 🤖🌱",
+                soilmate_award: "🥈 RoboCode III - 2-е Место",
+                soilmate_desc: "SoilMate — это не просто робот, а \"правая рука\" фермера и цифровой агроном в поле. Наша цель — вывести сельское хозяйство из старых методов и перейти к полностью автономной системе, основанной на данных.",
+                soilmate_feat1: "Б ИИ NVIDIA: Внутри робота находится компьютер NVIDIA Jetson Orin Nano. Благодаря этому мозгу робот знает, куда идти на поле, распознает препятствия и никогда не теряется, даже когда GPS слабый.",
+                soilmate_feat2: "Почвенные Датчики: Специальные датчики \"смотрят\" глубоко в почву, измеряя кислотность (pH), соленость (EC) и влажность. Данные передаются на Vercel Dashboard за считанные секунды.",
+                soilmate_feat3: "Автоматическая Док-станция: Когда энергия заканчивается, робот автономно возвращается на зарядную станцию, оборудованную солнечными панелями, заряжается и продолжает работу.",
+                soilmate_why_title: "🎯 Почему SoilMate?",
+                soilmate_why_desc: "30% Экономии: Фермер ухаживает только за теми участками, которые в этом нуждаются. Скорость: Лабораторные анализы занимают дни, робот дает мгновенные результаты. Доступность: Компактный (70x80 см) и экономически подходящий для средних ферм.",
+                // Team Russian
+                team_title: "Наша Команда",
+                team_desc: "Познакомьтесь с нашей командой профессионалов, каждый из которых эксперт в своей области",
+                member1_name: "Исмаил Баба",
+                member1_role: "Мехатроника",
+                member2_name: "Айтак Шекерзаде",
+                member2_role: "Full-Stack Разработчик",
+                member3_name: "Наджиба Мамедова",
+                member3_role: "Java Backend Разработчик",
+                member4_name: "Илахе Нифталиева",
+                member4_role: "Электроника",
+                member5_name: "Али Асадов",
+                member5_role: "Специалист по Кибербезопасности",
+                contact_title: "Контакты",
+                contact_desc: "Хотите сотрудничать или просто поздороваться?",
+                contact_subtitle: "Давайте творить великие дела вместе!",
+                contact_text: "Свяжитесь с нами для новых проектов, соревнований или предложений о сотрудничестве.",
+                form_name: "Ваше Имя",
+                form_email: "Email",
+                form_message: "Ваше Сообщение",
+                form_send: "Отправить",
+                footer_rights: "Все права защищены."
+            }
+        };
+
+        // Dil dəyişdirmə funksiyası - DÜZƏLDİLMİŞ
+        function changeLang(lang) {
+            // Bütün düymələrdən active klasını sil və uyğun olana əlavə et
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                // Düymənin mətninə görə active klası əlavə et (AZ, EN, RU)
+                if (btn.textContent.toLowerCase().trim() === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Mətnləri dəyişdir
+            const texts = translations[lang];
+            if (!texts) return; // Əgər dil tapılmasa çıx
+
+            document.querySelectorAll('[data-key]').forEach(elem => {
+                const key = elem.getAttribute('data-key');
+                if (texts[key]) {
+                    // Fade out effekti
+                    elem.style.transition = 'opacity 0.2s ease';
+                    elem.style.opacity = '0';
+
+                    setTimeout(() => {
+                        elem.textContent = texts[key];
+                        // Fade in effekti
+                        elem.style.opacity = '1';
+                    }, 200);
+                }
+            });
+
+            // HTML lang atributunu dəyişdir
+            document.documentElement.lang = lang;
+
+            // Seçimi yadda saxla (istəyə bağlı)
+            localStorage.setItem('selectedLang', lang);
+        }
+
+        // Səhifə yüklənəndə yaddaşda dil varsa onu yüklə
+        window.addEventListener('load', () => {
+            const savedLang = localStorage.getItem('selectedLang');
+            if (savedLang && translations[savedLang]) {
+                // İlk yükləmədə aktiv düyməni düzgün göstərmək üçün
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.textContent.toLowerCase().trim() === savedLang) {
+                        btn.classList.add('active');
+                    }
+                });
+
+                // Mətnləri yenilə (loader bitdikdən sonra)
+                setTimeout(() => {
+                    const texts = translations[savedLang];
+                    document.querySelectorAll('[data-key]').forEach(elem => {
+                        const key = elem.getAttribute('data-key');
+                        if (texts[key]) {
+                            elem.textContent = texts[key];
+                        }
+                    });
+                    document.documentElement.lang = savedLang;
+                }, 1100); // Loader müddətindən bir qədər çox
+            }
+        });
+
+        // Particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Sayğac animasiyası (gizli olsa da işləsin)
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const increment = target / 50;
+                let current = 0;
+
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current);
+                        setTimeout(updateCounter, 40);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+
+                updateCounter();
+            });
+        }
+
+        // Intersection Observer üçün
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Sayğaclar görünəndə animasiya et
+                    if (entry.target.classList.contains('stat-card')) {
+                        animateCounters();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1000);
+
+            createParticles();
+
+            // Timeline item-ləri observe et
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                observer.observe(item);
+            });
+
+            // Stat kartlarını observe et (əgər görünərsə)
+            document.querySelectorAll('.stat-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effekti
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-bg');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+
+</html>
