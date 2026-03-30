@@ -21,36 +21,9 @@
             --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
             --bg-body: #0a0a0f;
+            --neon-glow: 0 0 20px rgba(99, 102, 241, 0.5), 0 0 40px rgba(6, 182, 212, 0.3);
         }
 
-        .team-image {
-            width: 100%;
-            height: 260px;
-            /* 280px-dən 260px etdim daha balaca olsun */
-            background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .team-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* Şəkil qutuya sığsın, kəssin */
-            object-position: center top;
-            /* Üz/əsas hissə mərkəzdə olsun */
-            transition: transform 0.4s ease;
-        }
-
-        /* Hover effekti - şəkil balaca böyüsün */
-        .team-card:hover .team-image img {
-            transform: scale(1.08);
-        }
-
-        /* Light Mode Variables */
         [data-theme="light"] {
             --bg-dark: #ffffff;
             --bg-body: #f8fafc;
@@ -60,6 +33,7 @@
             --border: rgba(0, 0, 0, 0.1);
             --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --neon-glow: 0 0 20px rgba(99, 102, 241, 0.2), 0 0 40px rgba(6, 182, 212, 0.1);
         }
 
         * {
@@ -81,36 +55,36 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* Custom Cursor - Düzəldilmiş */
+        /* Custom Cursor */
         .cursor {
             width: 20px;
             height: 20px;
-            border: 2px solid #06b6d4;
-            /* Birbaşa mavi/cyan rəng */
+            border: 2px solid var(--accent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             transition: transform 0.1s;
-            /* Başlanğıcda ekran xaricində olsun */
             top: -100px;
             left: -100px;
-            /* Və ya görünməz olsun deyə: opacity: 0; */
+            mix-blend-mode: difference;
         }
 
         .cursor-dot {
             width: 4px;
             height: 4px;
-            background: #06b6d4;
-            /* Birbaşa mavi/cyan rəng */
+            background: var(--accent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            /* Başlanğıcda ekran xaricində olsun */
             top: -100px;
             left: -100px;
-            /* Və ya görünməz olsun deyə: opacity: 0; */
+        }
+
+        .cursor.hover {
+            transform: scale(2);
+            background: rgba(6, 182, 212, 0.1);
         }
 
         /* Navigation */
@@ -126,43 +100,60 @@
             background: rgba(10, 10, 15, 0.8);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
 
         [data-theme="light"] nav {
             background: rgba(255, 255, 255, 0.8);
         }
 
-      .logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    background: var(--gradient-1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    cursor: pointer;
-    position: relative;
-    user-select: none; /* Mətn seçilməsin deyə */
-}
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-2);
-            transition: width 0.3s;
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: rgba(10, 10, 15, 0.95);
         }
-        .logo:hover {
-    opacity: 0.8;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
-}
 
-        .logo:hover::after {
-            width: 100%;
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            transition: all 0.3s;
+        }
+
+        .logo:hover {
+            animation: glitch 0.3s ease infinite;
+            transform: scale(1.05);
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0) scale(1.05);
+            }
+
+            20% {
+                transform: translate(-2px, 2px) scale(1.05);
+            }
+
+            40% {
+                transform: translate(-2px, -2px) scale(1.05);
+            }
+
+            60% {
+                transform: translate(2px, 2px) scale(1.05);
+            }
+
+            80% {
+                transform: translate(2px, -2px) scale(1.05);
+            }
+
+            100% {
+                transform: translate(0) scale(1.05);
+            }
         }
 
         .nav-links {
@@ -176,9 +167,10 @@
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            transition: all 0.3s;
             position: relative;
             font-size: 0.95rem;
+            padding: 0.5rem 0;
         }
 
         .nav-links a::after {
@@ -190,10 +182,12 @@
             height: 2px;
             background: var(--accent);
             transition: width 0.3s;
+            box-shadow: 0 0 10px var(--accent);
         }
 
         .nav-links a:hover {
             color: var(--text-primary);
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
         }
 
         .nav-links a:hover::after {
@@ -228,13 +222,14 @@
         .lang-btn.active {
             background: var(--primary);
             color: white;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
         }
 
         .lang-btn:hover:not(.active) {
             color: var(--text-primary);
+            transform: translateY(-2px);
         }
 
-        /* Theme Toggle */
         .theme-toggle {
             width: 40px;
             height: 40px;
@@ -251,8 +246,9 @@
         }
 
         .theme-toggle:hover {
-            transform: rotate(20deg);
+            transform: rotate(180deg) scale(1.1);
             border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
         }
 
         /* Hero Section */
@@ -266,82 +262,46 @@
             padding: 0 5%;
         }
 
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
         .hero-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
             z-index: -2;
-        }
-
-        [data-theme="light"] .hero-bg {
-            background:
-                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
-        }
-
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: float 20s infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(-100vh) translateX(100px);
-                opacity: 0;
-            }
+            transition: all 0.5s ease;
         }
 
         .hero-content {
             text-align: center;
             max-width: 900px;
             z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            /* elementlər arasında məsafə */
         }
 
         .hero-badge {
-            display: inline-flex;
+            display: flex;
+            flex-direction: column;
+            /* ikon və yazı alt-alta */
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(6, 182, 212, 0.1);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            border-radius: 50px;
-            color: var(--accent);
-            font-size: 0.9rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.8s ease-out;
+            justify-content: center;
         }
 
         .hero h1 {
@@ -354,6 +314,39 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInUp 0.8s ease-out 0.2s both;
+            text-shadow: var(--neon-glow);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1::after {
+            content: '|';
+            animation: blink 1s infinite;
+            margin-left: 5px;
+            -webkit-text-fill-color: var(--accent);
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes neonPulse {
+            from {
+                text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+            }
+
+            to {
+                text-shadow: 0 0 30px rgba(99, 102, 241, 0.8), 0 0 40px rgba(6, 182, 212, 0.4);
+            }
         }
 
         .hero p {
@@ -384,6 +377,8 @@
             font-size: 1rem;
             cursor: pointer;
             border: none;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
@@ -394,7 +389,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.4);
+            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.5), 0 0 20px rgba(6, 182, 212, 0.4);
         }
 
         .btn-secondary {
@@ -406,10 +401,25 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
         }
 
-        [data-theme="light"] .btn-secondary:hover {
-            background: rgba(0, 0, 0, 0.05);
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
         }
 
         @keyframes fadeInUp {
@@ -424,45 +434,16 @@
             }
         }
 
-        /* Stats Section - HIDDEN FOR NOW */
-        .stats {
-            display: none;
-            /* BU XƏTTİ SİLƏRSƏNİZ GÖRÜNƏCƏK */
-            padding: 4rem 5%;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
         }
 
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s, border-color 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
-        .stat-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Section Styles */
@@ -470,6 +451,7 @@
             padding: 6rem 5%;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
         }
 
         .section-header {
@@ -495,6 +477,7 @@
             height: 4px;
             background: var(--gradient-2);
             border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent);
         }
 
         .section-header p {
@@ -503,7 +486,43 @@
             margin: 1.5rem auto 0;
         }
 
-        /* Timeline / Competitions - SoilMate Roadmap */
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .trust-badge:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .trust-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+        }
+
+        /* Timeline */
         .timeline {
             position: relative;
             padding: 2rem 0;
@@ -519,6 +538,7 @@
             width: 2px;
             height: 100%;
             background: linear-gradient(to bottom, var(--primary), var(--accent));
+            box-shadow: 0 0 10px var(--accent);
         }
 
         .timeline-item {
@@ -527,7 +547,6 @@
             position: relative;
             margin-bottom: 3rem;
             opacity: 1;
-            transform: translateX(0);
         }
 
         .timeline-content {
@@ -540,13 +559,13 @@
             margin: 0 auto;
             position: relative;
             backdrop-filter: blur(10px);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
             border-left: 4px solid var(--accent);
         }
 
         .timeline-content:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
+            box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15), 0 0 30px rgba(99, 102, 241, 0.1);
         }
 
         .timeline-date {
@@ -558,29 +577,35 @@
             font-size: 0.9rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
         }
 
         .timeline-content h3 {
-            color: var(--accent);
+            color: #06b6d4;
             margin-bottom: 0.5rem;
             font-size: 1.8rem;
             font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
         }
 
-        .timeline-content .place {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.1rem;
+        [data-theme="light"] .timeline-content h3 {
+            color: #4f46e5;
         }
 
         .timeline-content p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
+            color: #a1a1aa;
+        }
+
+        [data-theme="light"] .timeline-content p {
+            color: #475569;
+        }
+
+        .timeline-content .place {
+            color: #6366f1;
+        }
+
+        [data-theme="light"] .timeline-content .place {
+            color: #4f46e5;
         }
 
         .feature-list {
@@ -592,12 +617,26 @@
             padding: 0.8rem 0;
             padding-left: 2rem;
             position: relative;
-            color: var(--text-secondary);
+            color: #a1a1aa;
             border-bottom: 1px solid var(--border);
+            transition: all 0.3s;
         }
 
-        .feature-list li:last-child {
-            border-bottom: none;
+        [data-theme="light"] .feature-list li {
+            color: #475569;
+        }
+
+        .feature-list li strong {
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .feature-list li strong {
+            color: #0f172a;
+        }
+
+        .feature-list li:hover {
+            padding-left: 2.5rem;
+            color: var(--text-primary);
         }
 
         .feature-list li::before {
@@ -607,6 +646,7 @@
             color: var(--accent);
             font-weight: bold;
             font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--accent);
         }
 
         .highlight-box {
@@ -615,21 +655,54 @@
             border-radius: 16px;
             padding: 1.5rem;
             margin-top: 1.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
         .highlight-box h4 {
-            color: var(--text-primary);
+            color: #06b6d4;
             margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+            font-weight: 700;
         }
 
-        /* Team Section - 3 top, 2 bottom centered */
+        .highlight-box p {
+            color: #a1a1aa;
+        }
+
+        [data-theme="light"] .highlight-box h4 {
+            color: #4f46e5;
+        }
+
+        [data-theme="light"] .highlight-box p {
+            color: #475569;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-2);
+            z-index: -1;
+            border-radius: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .highlight-box:hover::before {
+            opacity: 0.3;
+        }
+
+        /* Team Section - 3D Cards */
         .team-container {
             display: flex;
             flex-direction: column;
             gap: 2rem;
             max-width: 1000px;
             margin: 0 auto;
+            perspective: 1000px;
         }
 
         .team-row {
@@ -639,72 +712,147 @@
             flex-wrap: wrap;
         }
 
-        .team-row-1 {
-            /* 3 members */
-        }
-
-        .team-row-2 {
-            /* 2 members centered */
-        }
-
         .team-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 24px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
             position: relative;
             width: 280px;
             flex-shrink: 0;
+            transform-style: preserve-3d;
+            cursor: pointer;
         }
 
         .team-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-1);
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #6366f1, #06b6d4, #6366f1, #764ba2);
+            background-size: 400%;
+            z-index: -1;
+            border-radius: 26px;
             opacity: 0;
             transition: opacity 0.3s;
-            z-index: 0;
-        }
-
-        .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+            animation: glowing 20s linear infinite;
         }
 
         .team-card:hover::before {
-            opacity: 0.1;
+            opacity: 1;
+        }
+
+        @keyframes glowing {
+            0% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 400% 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .team-card:hover {
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
         }
 
         .team-image {
             width: 100%;
-            height: 280px;
+            height: 260px;
             background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
         }
 
-        [data-theme="light"] .team-image {
-            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.4s ease;
+        }
+
+        .team-card:hover .team-image img {
+            transform: scale(1.1);
         }
 
         .team-info {
             padding: 1.5rem;
             position: relative;
-            z-index: 1;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.4);
+            /* daha aydın fon */
+            border-top: 1px solid var(--border);
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        [data-theme="light"] .team-info {
+            background: rgba(255, 255, 255, 0.8);
+            /* light modda oxunur */
+        }
+
+        .team-card:hover .team-info h3 {
+            color: var(--accent);
+            text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="light"] .team-card:hover .team-info h3 {
+            color: #4f46e5;
+            text-shadow: none;
+        }
+
+        .team-card:hover .team-role {
+            color: var(--accent);
+            opacity: 1;
+        }
+
+        .team-info h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+            font-weight: 700;
+        }
+
+        .team-role {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        [data-theme="light"] .team-info h3 {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .team-role {
+            color: #4f46e5;
         }
 
         .team-info h3 {
             font-size: 1.3rem;
             margin-bottom: 0.25rem;
+            transition: all 0.3s;
+        }
+
+        .team-card:hover .team-info h3 {
+            color: #06b6d4;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        [data-theme="light"] .team-card:hover .team-info h3 {
+            color: #4f46e5;
+            text-shadow: none;
         }
 
         .team-role {
@@ -737,55 +885,150 @@
             justify-content: center;
             color: white;
             text-decoration: none;
-            transition: background 0.3s;
-        }
-
-        [data-theme="light"] .team-social a {
-            background: rgba(0, 0, 0, 0.1);
-            color: var(--text-primary);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
         .team-social a:hover {
             background: var(--accent);
-            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.4);
         }
 
-        /* Skills/Trust Section */
-        .trust-badges {
+        /* Skills Progress Bars */
+        .skills-section {
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-header {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: var(--gradient-2);
+            border-radius: 4px;
+            width: 0;
+            transition: width 1.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Achievements */
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
 
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
+        .achievement-card {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 20px;
             border: 1px solid var(--border);
-            border-radius: 12px;
-            font-weight: 500;
             transition: all 0.3s;
-            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
         }
 
-        [data-theme="light"] .trust-badge {
-            background: rgba(0, 0, 0, 0.03);
+        .achievement-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            border-color: gold;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
-        .trust-badge:hover {
-            background: rgba(99, 102, 241, 0.1);
-            border-color: var(--primary);
-            transform: translateY(-2px);
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.5s;
         }
 
-        .trust-icon {
-            width: 24px;
-            height: 24px;
-            color: var(--accent);
+        .achievement-card:hover::before {
+            left: 100%;
+        }
+
+        .trophy {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .achievement-card h3 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .achievement-card p {
+            color: #fbbf24;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        [data-theme="light"] .achievement-card h3 {
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .achievement-card p {
+            color: #d97706;
         }
 
         /* Contact Section */
@@ -819,11 +1062,14 @@
             text-decoration: none;
             color: var(--text-primary);
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
         .contact-link:hover {
             border-color: var(--accent);
-            transform: translateX(5px);
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(6, 182, 212, 0.2);
         }
 
         .contact-form {
@@ -832,6 +1078,22 @@
             padding: 2rem;
             border-radius: 24px;
             backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: var(--gradient-2);
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .contact-form:hover::before {
+            opacity: 0.3;
         }
 
         .form-group {
@@ -843,6 +1105,11 @@
             margin-bottom: 0.5rem;
             color: var(--text-secondary);
             font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .form-group:focus-within label {
+            color: var(--accent);
         }
 
         .form-group input,
@@ -854,18 +1121,48 @@
             border-radius: 12px;
             color: var(--text-primary);
             font-family: inherit;
-            transition: border-color 0.3s;
-        }
-
-        [data-theme="light"] .form-group input,
-        [data-theme="light"] .form-group textarea {
-            background: rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-2);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fab:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 30px rgba(6, 182, 212, 0.6);
         }
 
         /* Footer */
@@ -875,6 +1172,7 @@
             border-top: 1px solid var(--border);
             color: var(--text-secondary);
             margin-top: 4rem;
+            position: relative;
         }
 
         .footer-logo {
@@ -886,6 +1184,101 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
+            animation: neonPulse 3s infinite alternate;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 1.5s infinite;
+            margin-bottom: 1rem;
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-progress {
+            height: 100%;
+            background: var(--gradient-2);
+            width: 0;
+            animation: loadProgress 2s ease forwards;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        @keyframes loadProgress {
+            0% {
+                width: 0;
+            }
+
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.95);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-body);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
         }
 
         /* Mobile Responsive */
@@ -925,66 +1318,21 @@
                 width: 100%;
                 max-width: 300px;
             }
+
+            .hero h1::after {
+                display: none;
+            }
         }
 
-        /* Loading Animation */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-dark);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.5s;
-        }
-
-        .loader.hidden {
-            opacity: 0;
+        /* Particle Animation for Hero */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
             pointer-events: none;
-        }
-
-        .loader-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-body);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
+            opacity: 0.6;
         }
     </style>
 </head>
@@ -992,16 +1340,26 @@
 <body>
     <!-- Loader -->
     <div class="loader" id="loader">
-        <div class="loader-text">ZENITH</div>
+        <div class="loader-content">
+            <div class="loader-text">ZENITH</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Custom Cursor -->
     <div class="cursor"></div>
     <div class="cursor-dot"></div>
 
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Yuxarı">
+        ↑
+    </button>
+
     <!-- Navigation -->
-    <nav>
-        <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="cursor: pointer;">ZENITH</div>
+    <nav id="navbar">
+        <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">ZENITH</div>
         <ul class="nav-links">
             <li><a href="#about" data-key="about">Haqqımızda</a></li>
             <li><a href="#competitions" data-key="competitions">Layihələrimiz</a></li>
@@ -1024,144 +1382,102 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="particles" id="particles"></div>
+        <canvas id="particle-canvas"></canvas>
+        <div class="hero-bg" id="heroBg"></div>
         <div class="hero-content">
-            <div class="hero-badge">
+            <div class="hero-badge reveal" style="flex-direction: column; gap: 0.5rem;">
                 <span>★</span>
                 <span data-key="badge">Gələcəyin İnnovatorları</span>
             </div>
-            <h1 data-key="hero_title">Zirvəyə Doğru</h1>
-            <p data-key="hero_desc">Gənclərdən ibarət güclü komanda olaraq texnologiya və innovasiya yarışlarında
-                ölkəmizi təmsil edirik. Hədəfimiz zirvədir!</p>
+            <h1 data-key="hero_title" id="typewriter-text">Zirvəyə Doğru</h1>
+            <p class="reveal" data-key="hero_desc">Gənclərdən ibarət güclü komanda olaraq texnologiya və innovasiya
+                yarışlarında ölkəmizi təmsil edirik. Hədəfimiz zirvədir!</p>
             <div class="cta-buttons">
-                <a href="#competitions" class="btn btn-primary" data-key="btn_competitions">Layihələrimiz</a>
-                <a href="#contact" class="btn btn-secondary" data-key="btn_contact">Bizimlə Əlaqə</a>
+                <a href="#competitions" class="btn btn-primary magnetic-btn reveal"
+                    data-key="btn_competitions">Layihələrimiz</a>
+                <a href="#contact" class="btn btn-secondary magnetic-btn reveal" data-key="btn_contact">Bizimlə
+                    Əlaqə</a>
             </div>
         </div>
     </section>
-
-    <!-- Stats - GİZLİ (Hidden) -->
-    <div class="stats" id="statsSection">
-        <div class="stat-card">
-            <div class="stat-number" data-count="15">0</div>
-            <div class="stat-label" data-key="stat_competitions">İştirak Edilən Yarış</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" data-count="8">0</div>
-            <div class="stat-label" data-key="stat_wins">Qazanılmış Mükafat</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" data-count="12">0</div>
-            <div class="stat-label" data-key="stat_members">Komanda Üzvü</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number" data-count="3">0</div>
-            <div class="stat-label" data-key="stat_countries">Ölkə</div>
-        </div>
-    </div>
 
     <!-- About Section -->
     <section id="about">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2 data-key="about_title">Biz Kimik?</h2>
-            <p data-key="about_desc">Zenith komandası 2026-ci ildə yaradılmış və texnologiya sahəsində özünü sübut etmiş
+            <p data-key="about_desc">Zenith komandası 2026-cı ildə yaradılmış və texnologiya sahəsində özünü sübut etmiş
                 gənclərdən ibarət bir təşkilatdır.</p>
-        </div>
-
-        <div class="trust-badges">
-            <div class="trust-badge">
-                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span data-key="trust_1">Sertifikatlı Mütəxəssislər</span>
-            </div>
-            <div class="trust-badge">
-                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                </svg>
-                <span data-key="trust_2">Innovativ Layihələr</span>
-            </div>
-            <div class="trust-badge">
-                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
-                    </path>
-                </svg>
-                <span data-key="trust_3">Beynəlxalq Əməkdaşlıq</span>
-            </div>
-            <div class="trust-badge">
-                <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z">
-                    </path>
-                </svg>
-                <span data-key="trust_4">Tədqiqat və İnkişaf</span>
-            </div>
         </div>
     </section>
 
-    <!-- Competitions Timeline - SoilMate Roadmap -->
+    <!-- Competitions Timeline -->
     <section id="competitions">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2 data-key="comp_title">Layihələrimiz</h2>
             <p data-key="comp_desc">Hazırladığımız innovativ texnologiya layihələri</p>
         </div>
 
         <div class="timeline">
-            <div class="timeline-item">
+            <div class="timeline-item reveal">
                 <div class="timeline-content">
                     <span class="timeline-date">2026</span>
                     <h3 data-key="soilmate_title">SoilMate: Tarlanın Ağıllı Köpəkbalığı</h3>
-                    <div class="place" data-key="soilmate_award">RoboCode III - 2-ci yer</div>
-                    <p data-key="soilmate_desc">
-                        SoilMate sadəcə bir robot deyil, fermerin tarladakı "sağ əli" və rəqəmsal aqronomudur.
-                        Bizim məqsədimiz kənd təsərrüfatını köhnə üsullardan çıxarıb, tamamilə avtonom və
-                        məlumat əsaslı bir sistemə keçirməkdir.
-                    </p>
+                    <p data-key="soilmate_desc">SoilMate sadəcə bir robot deyil, fermerin tarladakı "sağ əli" və
+                        rəqəmsal aqronomudur.</p>
 
                     <ul class="feature-list">
                         <li data-key="soilmate_feat1"><strong>NVIDIA AI Beyni:</strong> Robotun içində NVIDIA Jetson
-                            Orin Nano kompüteri var. Bu beyin sayəsində robot tarlada hara gedəcəyini bilir, maneələri
-                            tanıyır və GPS zəifləyəndə belə yolunu azmır.</li>
+                            Orin Nano kompüteri var.</li>
                         <li data-key="soilmate_feat2"><strong>Torpaq Sensorları:</strong> Xüsusi sensorlar torpağın
-                            dərinliyinə "baxır", turşuluq (pH), duzluluq (EC) və rütubət ölçür. Məlumatlar saniyələr
-                            içində Vercel Dashboard-a ötürülür.</li>
+                            dərinliyinə "baxır".</li>
                         <li data-key="soilmate_feat3"><strong>Auto-Docking:</strong> Enerji azaldıqda robot özü-özünə
-                            günəş paneli ilə təchiz olunmuş şarj stansiyasına qayıdır və şarj olub yenidən işinə davam
-                            edir.</li>
+                            şarj stansiyasına qayıdır.</li>
                     </ul>
 
                     <div class="highlight-box">
                         <h4 data-key="soilmate_why_title">Niyə SoilMate?</h4>
                         <p style="margin: 0; font-size: 0.95rem;" data-key="soilmate_why_desc">
                             <strong>30% Qənaət:</strong> Fermer yalnız ehtiyac olan yerə qulluq edir.
-                            <strong>Sürət:</strong> Laboratoriya analizləri günlərlə çəkir, robot anında nəticə verir.
-                            <strong>Əlçatanlıq:</strong> Kompakt (70x80 sm) və orta ölçülü fermalar üçün iqtisadi
-                            cəhətdən uyğundur.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Achievements -->
+        <div class="achievements">
+            <div class="achievement-card reveal">
+                <div class="trophy">🏆</div>
+                <h3>RoboCode III</h3>
+                <p>2-ci yer</p>
+            </div>
+            <div class="achievement-card reveal">
+                <div class="trophy">🥈</div>
+                <h3>Innovation Cup</h3>
+                <p>Finalist</p>
+            </div>
+            <div class="achievement-card reveal">
+                <div class="trophy">🚀</div>
+                <h3>TechStart</h3>
+                <p>Top 5</p>
+            </div>
+        </div>
     </section>
 
-    <!-- Team Section - 3 top, 2 bottom -->
+    <!-- Team Section -->
     <section id="team">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2 data-key="team_title">Komandamız</h2>
             <p data-key="team_desc">Hər biri öz sahəsinin peşəkarı olan gənclərdən ibarət komandamızla tanış olun</p>
         </div>
 
         <div class="team-container">
-            <!-- First Row: 3 members -->
             <div class="team-row team-row-1">
-                <!-- 1. İsmayıl Baba -->
-                <div class="team-card""
-                    style=" cursor: pointer;">
-                    <div class="team-image"><img src="Ismayil.jpeg" alt="İsmayıl Baba"></div>
+                <div class="team-card tilt-card reveal"
+                    onclick="window.open('https://www.linkedin.com/in/ismayil-baba-a33294390/', '_blank')">
+                    <div class="team-image">
+                        <img src="Ismayil.jpeg" alt="İsmayıl Baba">
+                    </div>
                     <div class="team-info">
                         <h3 data-key="member1_name">İsmayıl Baba</h3>
                         <div class="team-role" data-key="member1_role">Mechatronics</div>
@@ -1171,24 +1487,26 @@
                     </div>
                 </div>
 
-                <!-- 2. Aytac Şəkərzadə -->
-                <div class="team-card" "
-                    style=" cursor: pointer;">
-                    <div class="team-image"><img src="me.jpeg" alt="Aytac Şəkərzadə"></div>
+                <div class="team-card tilt-card reveal"
+                    onclick="window.open('https://www.linkedin.com/in/aytaj-shakarzade-a29b98353/', '_blank')">
+                    <div class="team-image">
+                        <img src="me.jpeg" alt="Aytac Şəkərzadə">
+                    </div>
                     <div class="team-info">
                         <h3 data-key="member2_name">Aytac Şəkərzadə</h3>
                         <div class="team-role" data-key="member2_role">Full-Stack Developer</div>
                         <div class="team-social" onclick="event.stopPropagation()">
                             <a href="https://www.linkedin.com/in/aytaj-shakarzade-a29b98353/" target="_blank">in</a>
-                            <a href="https://github.com/aytajshakarzade" onclick="event.stopPropagation()">gh</a>
+                            <a href="https://github.com/aytajshakarzade" target="_blank">gh</a>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. Nəcibə Məmmədova -->
-                <div class="team-card" "
-                    style=" cursor: pointer;">
-                    <div class="team-image"><img src="Naciba.jpeg" alt="Nəcibə Məmmədova"></div>
+                <div class="team-card tilt-card reveal"
+                    onclick="window.open('https://www.linkedin.com/in/necibemammadova/', '_blank')">
+                    <div class="team-image">
+                        <img src="Naciba.jpeg" alt="Nəcibə Məmmədova">
+                    </div>
                     <div class="team-info">
                         <h3 data-key="member3_name">Nəcibə Məmmədova</h3>
                         <div class="team-role" data-key="member3_role">Java Backend Developer</div>
@@ -1199,12 +1517,12 @@
                 </div>
             </div>
 
-            <!-- Second Row: 2 members centered -->
             <div class="team-row team-row-2">
-                <!-- 4. İlahə Niftəliyeva -->
-                <div class="team-card" "
-                    style=" cursor: pointer;">
-                    <div class="team-image"><img src="Ilaha.PNG" alt=""></div>
+                <div class="team-card tilt-card reveal"
+                    onclick="window.open('https://www.linkedin.com/in/ilahaniftaliyeva/', '_blank')">
+                    <div class="team-image">
+                        <img src="Ilaha.PNG" alt="İlahə Niftəliyeva">
+                    </div>
                     <div class="team-info">
                         <h3 data-key="member4_name">İlahə Niftəliyeva</h3>
                         <div class="team-role" data-key="member4_role">Electronics</div>
@@ -1214,10 +1532,11 @@
                     </div>
                 </div>
 
-                <!-- 5. Əli Əsədov -->
-                <div class="team-card" "
-                    style=" cursor: pointer;">
-                    <div class="team-image"><img src="Ali.jpeg" alt="Əli Əsədov"></div>
+                <div class="team-card tilt-card reveal"
+                    onclick="window.open('https://www.linkedin.com/in/ali-asadov249/', '_blank')">
+                    <div class="team-image">
+                        <img src="Ali.jpeg" alt="Əli Əsədov">
+                    </div>
                     <div class="team-info">
                         <h3 data-key="member5_name">Əli Əsədov</h3>
                         <div class="team-role" data-key="member5_role">Kiber mütəxəssis</div>
@@ -1230,22 +1549,21 @@
         </div>
     </section>
 
-
     <!-- Contact Section -->
     <section id="contact">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2 data-key="contact_title">Bizimlə Əlaqə</h2>
             <p data-key="contact_desc">Layihənizdə əməkdaşlıq etmək və ya sadəcə salam demək istəyirsiniz?</p>
         </div>
 
         <div class="contact-container">
-            <div class="contact-info">
+            <div class="contact-info reveal">
                 <h3 data-key="contact_subtitle">Gəlin birlikdə böyük işlər görək!</h3>
                 <p data-key="contact_text">Yeni layihələr, yarışlar və ya əməkdaşlıq təklifləri üçün bizimlə əlaqə
                     saxlayın.</p>
 
                 <div class="contact-links">
-                    <a href="zenithteam.tech@gmail.com" class="contact-link">
+                    <a href="mailto:zenithteam.tech@gmail.com" class="contact-link">
                         <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
@@ -1273,7 +1591,7 @@
                 </div>
             </div>
 
-            <form class="contact-form" action="https://formspree.io/f/mnjoddar" method="POST">
+            <form class="contact-form reveal" action="https://formspree.io/f/mnjoddar" method="POST">
                 <div class="form-group">
                     <label data-key="form_name">Adınız</label>
                     <input type="text" name="name" required>
@@ -1287,7 +1605,8 @@
                     <textarea name="message" rows="4" required></textarea>
                 </div>
                 <input type="hidden" name="_subject" value="Yeni mesaj - Zenith Team saytından">
-                <button type="submit" class="btn btn-primary" style="width: 100%;" data-key="form_send">Göndər</button>
+                <button type="submit" class="btn btn-primary magnetic-btn" style="width: 100%;"
+                    data-key="form_send">Göndər</button>
             </form>
         </div>
     </section>
@@ -1304,28 +1623,22 @@
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
         }
 
         // Check for saved theme preference
-        window.addEventListener('load', () => {
-            const savedTheme = localStorage.getItem('theme');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (!systemPrefersDark) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
 
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-            } else if (!systemPrefersDark) {
-                // Default to dark as per original design, but respect system pref
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        });
-        // Custom Cursor - Düzəldilmiş
+        // Custom Cursor
         const cursor = document.querySelector('.cursor');
         const cursorDot = document.querySelector('.cursor-dot');
-
-        // İlk mouse hərəkətində cursor-u görünən et
         let isFirstMove = true;
 
         document.addEventListener('mousemove', (e) => {
@@ -1348,7 +1661,202 @@
         document.addEventListener('mouseup', () => {
             cursor.style.transform = 'scale(1)';
         });
-        // Dil məlumatları
+
+        // Hover effect for interactive elements
+        document.querySelectorAll('a, button, .team-card, .trust-badge').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // Particle Network Canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // Mouse interaction
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        this.x -= dx * 0.01;
+                        this.y -= dy * 0.01;
+                    }
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 80; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((p, i) => {
+                p.update();
+                p.draw();
+
+                // Draw connections
+                particles.slice(i + 1).forEach(p2 => {
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(6, 182, 212, ${1 - distance / 150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        initParticles();
+        animateParticles();
+
+        // Interactive Gradient Background
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            const heroBg = document.getElementById('heroBg');
+            if (heroBg) {
+                heroBg.style.background = `
+                    radial-gradient(circle at ${x}% ${y}%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
+                    radial-gradient(circle at ${100 - x}% ${100 - y}%, rgba(6, 182, 212, 0.15) 0%, transparent 50%)
+                `;
+            }
+        });
+
+        // 3D Tilt Effect for Team Cards
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+
+        // Magnetic Buttons
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+
+                    // Animate skill bars if present
+                    const skillBars = entry.target.querySelectorAll('.skill-progress');
+                    skillBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 200);
+                    });
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // FAB visibility
+            const fab = document.querySelector('.fab');
+            if (window.scrollY > 500) {
+                fab.classList.add('visible');
+            } else {
+                fab.classList.remove('visible');
+            }
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Translations
         const translations = {
             az: {
                 about: "Haqqımızda",
@@ -1360,28 +1868,22 @@
                 hero_desc: "Gənclərdən ibarət güclü komanda olaraq texnologiya və innovasiya yarışlarında ölkəmizi təmsil edirik. Hədəfimiz zirvədir!",
                 btn_competitions: "Layihələrimiz",
                 btn_contact: "Bizimlə Əlaqə",
-                stat_competitions: "İştirak Edilən Yarış",
-                stat_wins: "Qazanılmış Mükafat",
-                stat_members: "Komanda Üzvü",
-                stat_countries: "Ölkə",
                 about_title: "Biz Kimik?",
-                about_desc: "Zenith komandası 2026-ci ildə yaradılmış və texnologiya sahəsində özünü sübut etmiş gənclərdən ibarət bir təşkilatdır.",
+                about_desc: "Zenith komandası 2026-cı ildə yaradılmış və texnologiya sahəsində özünü sübut etmiş gənclərdən ibarət bir təşkilatdır.",
                 trust_1: "Sertifikatlı Mütəxəssislər",
                 trust_2: "Innovativ Layihələr",
                 trust_3: "Beynəlxalq Əməkdaşlıq",
                 trust_4: "Tədqiqat və İnkişaf",
                 comp_title: "Layihələrimiz",
                 comp_desc: "Hazırladığımız innovativ texnologiya layihələri",
-                // SoilMate tərcümələri
                 soilmate_title: "SoilMate: Tarlanın Ağıllı Köpəkbalığı",
                 soilmate_award: "RoboCode III - 2-ci yer",
-                soilmate_desc: "SoilMate sadəcə bir robot deyil, fermerin tarladakı \"sağ əli\" və rəqəmsal aqronomudur. Bizim məqsədimiz kənd təsərrüfatını köhnə üsullardan çıxarıb, tamamilə avtonom və məlumat əsaslı bir sistemə keçirməkdir.",
-                soilmate_feat1: "NVIDIA AI Beyni: Robotun içində NVIDIA Jetson Orin Nano kompüteri var. Bu beyin sayəsində robot tarlada hara gedəcəyini bilir, maneələri tanıyır və GPS zəifləyəndə belə yolunu azmır.",
-                soilmate_feat2: "Torpaq Sensorları: Xüsusi sensorlar torpağın dərinliyinə \"baxır\", turşuluq (pH), duzluluq (EC) və rütubət ölçür. Məlumatlar saniyələr içində Vercel Dashboard-a ötürülür.",
-                soilmate_feat3: "Auto-Docking: Enerji azaldıqda robot özü-özünə günəş paneli ilə təchiz olunmuş şarj stansiyasına qayıdır və şarj olub yenidən işinə davam edir.",
+                soilmate_desc: "SoilMate sadəcə bir robot deyil, fermerin tarladakı \"sağ əli\" və rəqəmsal aqronomudur.",
+                soilmate_feat1: "NVIDIA AI Beyni: Robotun içində NVIDIA Jetson Orin Nano kompüteri var.",
+                soilmate_feat2: "Torpaq Sensorları: Xüsusi sensorlar torpağın dərinliyinə \"baxır\".",
+                soilmate_feat3: "Auto-Docking: Enerji azaldıqda robot özü-özünə şarj stansiyasına qayıdır.",
                 soilmate_why_title: "Niyə SoilMate?",
-                soilmate_why_desc: "30% Qənaət: Fermer yalnız ehtiyac olan yerə qulluq edir. Sürət: Laboratoriya analizləri günlərlə çəkir, robot anında nəticə verir. Əlçatanlıq: Kompakt (70x80 sm) və orta ölçülü fermalar üçün iqtisadi cəhətdən uyğundur.",
-                // Komanda tərcümələri
+                soilmate_why_desc: "30% Qənaət: Fermer yalnız ehtiyac olan yerə qulluq edir.",
                 team_title: "Komandamız",
                 team_desc: "Hər biri öz sahəsinin peşəkarı olan gənclərdən ibarət komandamızla tanış olun",
                 member1_name: "İsmayıl Baba",
@@ -1414,10 +1916,6 @@
                 hero_desc: "We are a powerful team of youth representing our country in technology and innovation competitions. Our goal is the zenith!",
                 btn_competitions: "Our Projects",
                 btn_contact: "Contact Us",
-                stat_competitions: "Competitions",
-                stat_wins: "Awards Won",
-                stat_members: "Team Members",
-                stat_countries: "Countries",
                 about_title: "Who Are We?",
                 about_desc: "Team Zenith was established in 2026 and consists of youth who have proven themselves in the field of technology.",
                 trust_1: "Certified Experts",
@@ -1426,16 +1924,14 @@
                 trust_4: "Research & Development",
                 comp_title: "Our Projects",
                 comp_desc: "Innovative technology projects we have developed",
-                // SoilMate English
                 soilmate_title: "SoilMate: Smart Guardian of the Field",
                 soilmate_award: "RoboCode III - 2nd Place",
-                soilmate_desc: "SoilMate is not just a robot, but the farmer's \"right hand\" and digital agronomist in the field. Our goal is to take agriculture out of old methods and transition to a completely autonomous and data-driven system.",
-                soilmate_feat1: "NVIDIA AI Brain: Inside the robot is an NVIDIA Jetson Orin Nano computer. Thanks to this brain, the robot knows where to go in the field, recognizes obstacles, and never gets lost even when GPS is weak.",
-                soilmate_feat2: "Soil Sensors: Special sensors \"look\" deep into the soil, measuring acidity (pH), salinity (EC), and moisture. Data is transferred to the Vercel Dashboard within seconds.",
-                soilmate_feat3: "Auto-Docking: When energy is low, the robot autonomously returns to the charging station equipped with solar panels, charges, and continues its work.",
+                soilmate_desc: "SoilMate is not just a robot, but the farmer's \"right hand\" and digital agronomist in the field.",
+                soilmate_feat1: "NVIDIA AI Brain: Inside the robot is an NVIDIA Jetson Orin Nano computer.",
+                soilmate_feat2: "Soil Sensors: Special sensors \"look\" deep into the soil.",
+                soilmate_feat3: "Auto-Docking: When energy is low, the robot autonomously returns to the charging station.",
                 soilmate_why_title: "Why SoilMate?",
-                soilmate_why_desc: "30% Savings: The farmer only cares for areas that need it. Speed: Laboratory analyses take days, the robot gives instant results. Accessibility: Compact (70x80 cm) and economically suitable for medium-sized farms.",
-                // Team English
+                soilmate_why_desc: "30% Savings: The farmer only cares for areas that need it.",
                 team_title: "Our Team",
                 team_desc: "Meet our team of professionals, each an expert in their field",
                 member1_name: "Ismayil Baba",
@@ -1465,13 +1961,9 @@
                 contact: "Контакты",
                 badge: "Инноваторы Будущего",
                 hero_title: "К Вершине",
-                hero_desc: "Мы сильная команда молодежи, представляющая нашу страну на технологических и инновационных соревнованиях. Наша цель — вершина!",
+                hero_desc: "Мы сильная команда молодежи, представляющая нашу страну на технологических и инновационных соревнованиях.",
                 btn_competitions: "Наши Проекты",
                 btn_contact: "Связаться",
-                stat_competitions: "Соревнований",
-                stat_wins: "Выиграно Наград",
-                stat_members: "Членов Команды",
-                stat_countries: "Стран",
                 about_title: "Кто мы?",
                 about_desc: "Команда Zenith была основана в 2026 году и состоит из молодежи, доказавшей себя в сфере технологий.",
                 trust_1: "Сертифицированные Эксперты",
@@ -1479,19 +1971,17 @@
                 trust_3: "Международное Сотрудничество",
                 trust_4: "Исследования и Разработка",
                 comp_title: "Наши Проекты",
-                comp_desc: "Инновационные технологические проекты, которые мы разработали",
-                // SoilMate Russian
+                comp_desc: "Инновационные технологические проекты",
                 soilmate_title: "SoilMate: Умный Страж Поля",
                 soilmate_award: "RoboCode III - 2-е Место",
-                soilmate_desc: "SoilMate — это не просто робот, а \"правая рука\" фермера и цифровой агроном в поле. Наша цель — вывести сельское хозяйство из старых методов и перейти к полностью автономной системе, основанной на данных.",
-                soilmate_feat1: "Б ИИ NVIDIA: Внутри робота находится компьютер NVIDIA Jetson Orin Nano. Благодаря этому мозгу робот знает, куда идти на поле, распознает препятствия и никогда не теряется, даже когда GPS слабый.",
-                soilmate_feat2: "Почвенные Датчики: Специальные датчики \"смотрят\" глубоко в почву, измеряя кислотность (pH), соленость (EC) и влажность. Данные передаются на Vercel Dashboard за считанные секунды.",
-                soilmate_feat3: "Автоматическая Док-станция: Когда энергия заканчивается, робот автономно возвращается на зарядную станцию, оборудованную солнечными панелями, заряжается и продолжает работу.",
+                soilmate_desc: "SoilMate — это не просто робот, а \"правая рука\" фермера и цифровой агроном в поле.",
+                soilmate_feat1: "Б ИИ NVIDIA: Внутри робота находится компьютер NVIDIA Jetson Orin Nano.",
+                soilmate_feat2: "Почвенные Датчики: Специальные датчики \"смотрят\" глубоко в почву.",
+                soilmate_feat3: "Автоматическая Док-станция: Когда энергия заканчивается, робот автономно возвращается.",
                 soilmate_why_title: "Почему SoilMate?",
-                soilmate_why_desc: "30% Экономии: Фермер ухаживает только за теми участками, которые в этом нуждаются. Скорость: Лабораторные анализы занимают дни, робот дает мгновенные результаты. Доступность: Компактный (70x80 см) и экономически подходящий для средних ферм.",
-                // Team Russian
+                soilmate_why_desc: "30% Экономии: Фермер ухаживает только за теми участками, которые в этом нуждаются.",
                 team_title: "Наша Команда",
-                team_desc: "Познакомьтесь с нашей командой профессионалов, каждый из которых эксперт в своей области",
+                team_desc: "Познакомьтесь с нашей командой профессионалов",
                 member1_name: "Исмаил Баба",
                 member1_role: "Мехатроника",
                 member2_name: "Айтак Шекерзаде",
@@ -1505,7 +1995,7 @@
                 contact_title: "Контакты",
                 contact_desc: "Хотите сотрудничать или просто поздороваться?",
                 contact_subtitle: "Давайте творить великие дела вместе!",
-                contact_text: "Свяжитесь с нами для новых проектов, соревнований или предложений о сотрудничестве.",
+                contact_text: "Свяжитесь с нами для новых проектов.",
                 form_name: "Ваше Имя",
                 form_email: "Email",
                 form_message: "Ваше Сообщение",
@@ -1514,144 +2004,52 @@
             }
         };
 
-        // Dil dəyişdirmə funksiyası - DÜZƏLDİLMİŞ
         function changeLang(lang) {
-            // Bütün düymələrdən active klasını sil və uyğun olana əlavə et
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
-                // Düymənin mətninə görə active klası əlavə et (AZ, EN, RU)
                 if (btn.textContent.toLowerCase().trim() === lang) {
                     btn.classList.add('active');
                 }
             });
 
-            // Mətnləri dəyişdir
             const texts = translations[lang];
-            if (!texts) return; // Əgər dil tapılmasa çıx
+            if (!texts) return;
 
             document.querySelectorAll('[data-key]').forEach(elem => {
                 const key = elem.getAttribute('data-key');
                 if (texts[key]) {
-                    // Fade out effekti
                     elem.style.transition = 'opacity 0.2s ease';
                     elem.style.opacity = '0';
-
                     setTimeout(() => {
                         elem.textContent = texts[key];
-                        // Fade in effekti
                         elem.style.opacity = '1';
                     }, 200);
                 }
             });
 
-            // HTML lang atributunu dəyişdir
             document.documentElement.lang = lang;
-
-            // Seçimi yadda saxla (istəyə bağlı)
             localStorage.setItem('selectedLang', lang);
         }
 
-        // Səhifə yüklənəndə yaddaşda dil varsa onu yüklə
-        window.addEventListener('load', () => {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && translations[savedLang]) {
-                // İlk yükləmədə aktiv düyməni düzgün göstərmək üçün
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.textContent.toLowerCase().trim() === savedLang) {
-                        btn.classList.add('active');
-                    }
-                });
-
-                // Mətnləri yenilə (loader bitdikdən sonra)
-                setTimeout(() => {
-                    const texts = translations[savedLang];
-                    document.querySelectorAll('[data-key]').forEach(elem => {
-                        const key = elem.getAttribute('data-key');
-                        if (texts[key]) {
-                            elem.textContent = texts[key];
-                        }
-                    });
-                    document.documentElement.lang = savedLang;
-                }, 1100); // Loader müddətindən bir qədər çox
-            }
-        });
-
-        // Particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                container.appendChild(particle);
-            }
-        }
-
-        // Sayğac animasiyası (gizli olsa da işləsin)
-        function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
-            counters.forEach(counter => {
-                const target = parseInt(counter.getAttribute('data-count'));
-                const increment = target / 50;
-                let current = 0;
-
-                const updateCounter = () => {
-                    if (current < target) {
-                        current += increment;
-                        counter.textContent = Math.ceil(current);
-                        setTimeout(updateCounter, 40);
-                    } else {
-                        counter.textContent = target;
-                    }
-                };
-
-                updateCounter();
-            });
-        }
-
-        // Intersection Observer üçün
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-
-                    // Sayğaclar görünəndə animasiya et
-                    if (entry.target.classList.contains('stat-card')) {
-                        animateCounters();
-                    }
+        // Load saved language
+        const savedLang = localStorage.getItem('selectedLang');
+        if (savedLang && translations[savedLang]) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().trim() === savedLang) {
+                    btn.classList.add('active');
                 }
             });
-        }, observerOptions);
-
-        // Loader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 1000);
-
-            createParticles();
-
-            // Timeline item-ləri observe et
-            document.querySelectorAll('.timeline-item').forEach(item => {
-                observer.observe(item);
+            const texts = translations[savedLang];
+            document.querySelectorAll('[data-key]').forEach(elem => {
+                const key = elem.getAttribute('data-key');
+                if (texts[key]) {
+                    elem.textContent = texts[key];
+                }
             });
+        }
 
-            // Stat kartlarını observe et (əgər görünərsə)
-            document.querySelectorAll('.stat-card').forEach(card => {
-                observer.observe(card);
-            });
-        });
-
-        // Smooth scroll
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1663,15 +2061,6 @@
                     });
                 }
             });
-        });
-
-        // Parallax effekti
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('.hero-bg');
-            if (parallax) {
-                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
-            }
         });
     </script>
 </body>
