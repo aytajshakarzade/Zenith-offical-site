@@ -133,16 +133,17 @@
             background: rgba(255, 255, 255, 0.8);
         }
 
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
-            position: relative;
-        }
+      .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    position: relative;
+    user-select: none; /* Mətn seçilməsin deyə */
+}
 
         .logo::after {
             content: '';
@@ -154,6 +155,11 @@
             background: var(--gradient-2);
             transition: width 0.3s;
         }
+        .logo:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
 
         .logo:hover::after {
             width: 100%;
@@ -995,7 +1001,7 @@
 
     <!-- Navigation -->
     <nav>
-        <div class="logo">ZENITH</div>
+        <div class="logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="cursor: pointer;">ZENITH</div>
         <ul class="nav-links">
             <li><a href="#about" data-key="about">Haqqımızda</a></li>
             <li><a href="#competitions" data-key="competitions">Layihələrimiz</a></li>
